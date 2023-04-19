@@ -189,10 +189,11 @@ void mbedtls_aesni_gcm_mult(unsigned char c[16],
                             const unsigned char a[16],
                             const unsigned char b[16])
 {
+    size_t i;
     __m128i aa, bb, cc, dd;
 
     /* The inputs are in big-endian order, so byte-reverse them */
-    for (size_t i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         ((uint8_t *) &aa)[i] = a[15 - i];
         ((uint8_t *) &bb)[i] = b[15 - i];
     }
@@ -209,7 +210,7 @@ void mbedtls_aesni_gcm_mult(unsigned char c[16],
     cc = _mm_xor_si128(xh, dd); // x3+h1:x2+h0
 
     /* Now byte-reverse the outputs */
-    for (size_t i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         c[i] = ((uint8_t *) &cc)[15 - i];
     }
 
